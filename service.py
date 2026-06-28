@@ -10,7 +10,6 @@ class Service:
             return True
         return False   
     def emp_details(self,choice_id):
-        
         for emp in Service.lis:
                 if choice_id==emp.get_emp_id():
                     return emp
