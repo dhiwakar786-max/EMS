@@ -15,16 +15,47 @@ class View:
     
         if choice == 1 :
             name = input('enter empolyee name  :')
+
+            if service.checkname(name):
+                   pass
+            else:
+                   found=False
+                   while(found==False):
+                        print("Invalid name")
+                        name=input("enter employee name:")
+                        if service.checkname(name):
+                               found=True
+                               
             emp_ID = int(input('enter employee id   :'))
             age = int(input('enter employee age    :'))
-            salary =float(input('enter employee\'salary  :'))
+            if service.checkage(age):
+                   pass
+            else:
+                   found=False
+                   while(found==False):
+                        print("Invalid age")
+                        name=input("enter employee age:")
+                        if service.checkage(age):
+                               found=True
+                   
+            salary = float(input('enter employee\'salary  :'))
+            email = input("enter employee email id:")
+            if service.checkemail(email):
+                   pass
+            else:
+                   found=False
+                   while(found==False):
+                        print("Invalid email")
+                        name=input("enter employee email:")
+                        if service.checkemail(email):
+                               found=True
             doorno=int(input("Enter  door no:"))
             street=input("Enter street name : ")
             city=input("Enter  city:")
             pincode=int(input("enter pincode:"))
             address=Address(doorno,street,city,pincode)
             
-            emp=Employee(name,emp_ID,age,salary,address)
+            emp=Employee(name,emp_ID,age,salary,email,address)
             service.create(emp)
             print("Employee details added succesfully")
             
@@ -38,6 +69,7 @@ class View:
                         print("Employee ID:",employee.get_emp_id())
                         print("Employee age:",employee.get_emp_age())
                         print("Employee salary:",employee.get_emp_salary())
+                        print("Employee email id :",employee.get_emp_email())
                         add = employee.get_emp_address()
                         print("Employee doorno:",add.get_emp_doorno())
                         print("Employee street: ",add.get_emp_street())
@@ -49,7 +81,8 @@ class View:
                 print("1.update name")
                 print("2.update age")
                 print("3.update salary")
-                print("4.Update address")
+                print("4.Update email id ")
+                print("5.Update address")
                 ch=int(input("enter the choice:"))
                 if ch==1:
                         valname=input("enter the name to update:")
@@ -63,7 +96,12 @@ class View:
                         valsal=float(input("enter the salary to update:"))
                         service.update_salary(update_emp,valsal)
                         print("salary updated succesfully")
+
                 elif ch==4:
+                        valemail=input("enter employee email")
+                        service.update_email(update_emp,valemail)
+                        print("Employee email updated succesfully")
+                elif ch==5:
 
                         valadd=input("Enter the address:")
                         service.update_address(update_emp,valadd)
