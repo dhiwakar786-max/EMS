@@ -1,4 +1,4 @@
-class Employee:
+class Employee_details:
 
     def __init__(self,name,id,age,salary,email,address):
         self.emp_name   = name
@@ -54,7 +54,7 @@ class Employee:
         print("Employee salary :",self.emp_salary)
         print("Employee address : ",self.emp_address)
 
-class Address:
+class Employee_Address:
 
     def __init__(self,doorno,street,city,pincode):
         self.emp_doorno = doorno
