@@ -1,53 +1,53 @@
 from model import Employee , Address
 from service import Service
 
-class View:   
+class Employee_View:   
 
-    service = Service()
+    service = Employee_Controller()
     while True :
         print("____EMPLOYEE MANAGEMENT SYSTEM_____")
-        print("1.add a employeee")
-        print("2.display a employee")
-        print("3.update a employee")
-        print("4.Delete a employee")
+        print("1.Add a Employeee Detail ")
+        print("2.Display a Employee Detail")
+        print("3.Update a Employee Detail")
+        print("4.Delete a Employee Detail")
         print("5.Exit")
-        choice = int(input("enter the choice:"))
+        choice = int(input("Enter the choice:"))
     
         if choice == 1 :
-            name = input('enter empolyee name  :')
+            name = input('Enter The Empolyee Name  :')
 
-            if service.checkname(name):
+            if service.validate_employee_name(name):
                    pass
             else:
                    found=False
                    while(found==False):
                         print("Invalid name")
-                        name=input("enter employee name:")
-                        if service.checkname(name):
+                        name=input("Enter employee name:")
+                        if service.validate_employee_name(name):
                                found=True
                                
-            emp_ID = int(input('enter employee id   :'))
-            age = int(input('enter employee age    :'))
-            if service.checkage(age):
+            emp_ID = int(input('Enter employee id   :'))
+            age = int(input('Enter employee age    :'))
+            if service.validate_employee_age(age):
                    pass
             else:
                    found=False
                    while(found==False):
                         print("Invalid age")
-                        name=input("enter employee age:")
-                        if service.checkage(age):
+                        name=input("Enter employee age:")
+                        if service.validate_employee_age(age):
                                found=True
                    
-            salary = float(input('enter employee\'salary  :'))
-            email = input("enter employee email id:")
-            if service.checkemail(email):
+            salary = float(input('Enter employee\'salary  :'))
+            email = input("Enter employee email id:")
+            if service.validate_employee_email(email):
                    pass
             else:
                    found=False
                    while(found==False):
                         print("Invalid email")
-                        name=input("enter employee email:")
-                        if service.checkemail(email):
+                        name=input("Enter employee email:")
+                        if service.validate_employee_email(email):
                                found=True
             doorno=int(input("Enter  door no:"))
             street=input("Enter street name : ")
@@ -60,7 +60,7 @@ class View:
             print("Employee details added succesfully")
             
         elif choice == 2 :
-                if service.display():
+                if service.display_employee_detail():
                         print("No employee details available")
                 else:
                         choice_id=int(input("Enter the employee id:"))
@@ -77,44 +77,44 @@ class View:
                         print("Employee pincode:",add.get_emp_pincode())
         elif choice == 3 :
                 update_id=int(input("Enter the employee id :"))
-                update_emp=service.update_details(update_id) 
-                print("1.update name")
-                print("2.update age")
-                print("3.update salary")
-                print("4.Update email id ")
-                print("5.Update address")
-                ch=int(input("enter the choice:"))
+                update_emp=service.update_employee_details(update_id) 
+                print("1.Update Employee Name")
+                print("2.Update Employee Age")
+                print("3.Update Employee Salary")
+                print("4.Update Employee Email id ")
+                print("5.Update Address")
+                ch=int(input("Enter the choice:"))
                 if ch==1:
-                        valname=input("enter the name to update:")
-                        service.update_name(update_emp,valname)   
+                        valname=input("Enter the name to update:")
+                        service.update_employee_name(update_emp,valname)   
                         print("Name updated succesfully")
                 elif ch==2:
                         valage=int(input("Enter the age to update:"))
-                        service.update_age(update_emp,valage)
+                        service.update_employee_age(update_emp,valage)
                         print("age updated succesfully")
                 elif ch==3:
-                        valsal=float(input("enter the salary to update:"))
-                        service.update_salary(update_emp,valsal)
+                        valsal=float(input("Enter the salary to update:"))
+                        service.update_employee_salary(update_emp,valsal)
                         print("salary updated succesfully")
 
                 elif ch==4:
-                        valemail=input("enter employee email")
-                        service.update_email(update_emp,valemail)
+                        valemail=input("Enter employee email")
+                        service.update_employee_email(update_emp,valemail)
                         print("Employee email updated succesfully")
                 elif ch==5:
 
                         valadd=input("Enter the address:")
-                        service.update_address(update_emp,valadd)
+                        service.update_employee_address(update_emp,valadd)
                         print("Address updated succsefully")
                 else:
-                        print("enter the valid choice")
+                        print("Enter the valid choice")
                   
         elif choice == 4:
-            del_id=int(input("enter the employee id:")) 
-            service.delete(del_id)
-            print("employeee detail removed s(uccefully")
+            del_id=int(input("Enter the employee id:")) 
+            service.delete_employee_detail(del_id)
+            print("Employeee detail removed s(uccefully")
             
         elif   choice==5:
                 break      
         else:
-                print('give the correct input please ---..........')
+                print('Give the correct input please ---..........')
