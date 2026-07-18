@@ -1,9 +1,9 @@
-from model import Employee , Address
+from model import Employee , EmployeeAddress
 from service import Service
 
-class Employee_View:   
+class EmployeeView:   
 
-    service = Employee_Controller()
+    service = EmployeeController()
     while True :
         print("____EMPLOYEE MANAGEMENT SYSTEM_____")
         print("1.Add a Employeee Detail ")
@@ -56,7 +56,7 @@ class Employee_View:
             address=Address(doorno,street,city,pincode)
             
             emp=Employee(name,emp_ID,age,salary,email,address)
-            service.create(emp)
+            service.add_employee(emp)
             print("Employee details added succesfully")
             
         elif choice == 2 :
