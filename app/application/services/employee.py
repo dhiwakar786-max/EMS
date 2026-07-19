@@ -7,7 +7,7 @@ from app.domain.entities.employee import Employee
 
 class EmployeeService:
     def __init__(self, db: Session) -> None:
-        self._db = db
+        self._db = []
 
     def list_employees(self, *, skip: int = 0, limit: int = 100) -> list[Employee]:
         raise NotImplementedError
@@ -16,7 +16,7 @@ class EmployeeService:
         raise NotImplementedError
 
     def create_employee(self, employee: Employee) -> Employee:
-        raise NotImplementedError
+        self._db.append(employee)
 
     def update_employee(self, employee_id: int, employee: Employee) -> Employee:
         raise NotImplementedError

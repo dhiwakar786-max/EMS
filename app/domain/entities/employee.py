@@ -1,7 +1,7 @@
 """Employee domain entity (stub)."""
 from uuid import UUID
 from dataclasses import dataclass
-
+from employeeaddress import EmployeeAddress
 
 @dataclass
 class Employee:
@@ -11,5 +11,5 @@ class Employee:
     employee_age : int
     employee_salary : int
     employee_email : str
-    employee_address : str
+    employee_address : EmployeeAddress
 

@@ -1,5 +1,5 @@
 """Employee controller / presentation routes (stub)."""
-
+from app.infrastructure.database.
 from fastapi import APIRouter, Depends
 
 from app.application.services.employee import EmployeeService
@@ -27,7 +27,10 @@ def create_employee(
     payload: EmployeeCreateRequest,
     service: EmployeeService = Depends(get_employee_service),
 ) -> EmployeeResponse:
-    raise NotImplementedError
+    try:
+        employee = service.create_employee(payload)
+        
+      
         
 
 @router.get("/{employee_id}", response_model=EmployeeResponse)
