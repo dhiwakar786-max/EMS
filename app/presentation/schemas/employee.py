@@ -16,7 +16,11 @@ class EmployeeCreateRequest(BaseModel):
 
 
 class EmployeeUpdateRequest(BaseModel):
-    pass
+    employee_name : str
+    employee_age : int
+    employee_salary : int
+    employee_email : str
+    employee_address : EmployeeAddress
 
 
 class EmployeeResponse(BaseModel):
