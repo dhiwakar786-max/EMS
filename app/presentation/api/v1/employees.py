@@ -19,7 +19,7 @@ def list_employees(
     limit: int = 100,
     service: EmployeeService = Depends(get_employee_service),
 ) -> list[EmployeeResponse]:
-    raise NotImplementedError
+    return service.list_employees(skip = skip,limit = limit)
 
 
 @router.post("/", response_model=EmployeeResponse, status_code=201)
@@ -29,7 +29,9 @@ def create_employee(
 ) -> EmployeeResponse:
     try:
         employee = service.create_employee(payload)
-        
+        return employee
+    except Exception as e:
+        raise HTTPException(status_code = 400, detail = str(e0))
       
         
 
@@ -38,7 +40,13 @@ def get_employee(
     employee_id: int,
     service: EmployeeService = Depends(get_employee_service),
 ) -> EmployeeResponse:
-    raise NotImplementedError
+    try:
+        employee = service.get_employee(employee_id)
+        return employee
+    except Exception as e:
+        raise HTTPException(status_code = 404,detail = "Employee not found)
+    
+   
 
 
 @router.put("/{employee_id}", response_model=EmployeeResponse)
@@ -47,12 +55,22 @@ def update_employee(
     payload: EmployeeUpdateRequest,
     service: EmployeeService = Depends(get_employee_service),
 ) -> EmployeeResponse:
-    raise NotImplementedError
+    try:
+        employee = service.update_employee(employee_id,payload)
+        return employee
+    except Exception as e:
+        raise HTTPException(status_code = 404,detail ="employee not found")
 
+   
 
 @router.delete("/{employee_id}", status_code=204)
 def delete_employee(
     employee_id: int,
     service: EmployeeService = Depends(get_employee_service),
 ) -> None:
-    raise NotImplementedError
+    try:
+        success = service.delete_employee(employee_id)
+        return None
+    except Exception as e:
+        raise HTTPException(status_code = 404,detail = "employee not found")
+    
