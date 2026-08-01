@@ -1,13 +1,13 @@
 """Department application service / use cases (stub)."""
 
-from sqlalchemy.orm import Session
+# from sqlalchemy.orm import Session
 
 from app.domain.entities.department import Department
 
 
 class DepartmentService:
-    def __init__(self, db: Session) -> None:
-        self._db = db
+    def __init__(self) -> None:
+        self._db = []
 
     def list_departments(self, *, skip: int = 0, limit: int = 100) -> list[Department]:
         raise NotImplementedError

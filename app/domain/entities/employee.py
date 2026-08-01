@@ -1,7 +1,7 @@
 """Employee domain entity (stub)."""
 from uuid import UUID
 from dataclasses import dataclass
-from employeeaddress import EmployeeAddress
+from app.domain.entities.employeeaddress import EmployeeAddress
 
 @dataclass
 class Employee:

@@ -1,6 +1,6 @@
 """Employee request / response schemas (presentation DTOs — stub)."""
 from uuid import UUID
-from employeeaddress import EmployeeAddress
+from  app.presentation.schemas.employeeaddress import EmployeeAddress , EmployeeAddressUpdateRequest
 from pydantic import BaseModel , Field
 
 
@@ -20,7 +20,7 @@ class EmployeeUpdateRequest(BaseModel):
     employee_age : int
     employee_salary : int
     employee_email : str
-    employee_address : EmployeeAddress
+    employee_address : EmployeeAddressUpdateRequest
 
 
 class EmployeeResponse(BaseModel):

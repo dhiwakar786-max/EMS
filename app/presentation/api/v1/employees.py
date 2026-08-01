@@ -1,13 +1,13 @@
 """Employee controller / presentation routes (stub)."""
-from app.infrastructure.database.
-from fastapi import APIRouter, Depends
-
+#from app.infrastructure.database
+from fastapi import APIRouter, Depends , HTTPException 
 from app.application.services.employee import EmployeeService
 from app.presentation.dependencies import get_employee_service
 from app.presentation.schemas.employee import (
     EmployeeCreateRequest,
     EmployeeResponse,
     EmployeeUpdateRequest,
+
 )
 
 router = APIRouter(prefix="/employees", tags=["employees"])
@@ -29,9 +29,10 @@ def create_employee(
 ) -> EmployeeResponse:
     try:
         employee = service.create_employee(payload)
-        return employee
+        if employee == True:
+            return  "Employee created"
     except Exception as e:
-        raise HTTPException(status_code = 400, detail = str(e0))
+        raise HTTPException(status_code = 400, detail = str(e))
       
         
 
@@ -44,7 +45,7 @@ def get_employee(
         employee = service.get_employee(employee_id)
         return employee
     except Exception as e:
-        raise HTTPException(status_code = 404,detail = "Employee not found)
+        raise HTTPException(status_code = 404,detail = "Employee not found")
     
    
 
@@ -69,7 +70,7 @@ def delete_employee(
     service: EmployeeService = Depends(get_employee_service),
 ) -> None:
     try:
-        success = service.delete_employee(employee_id)
+        result  = service.delete_employee(employee_id)
         return None
     except Exception as e:
         raise HTTPException(status_code = 404,detail = "employee not found")

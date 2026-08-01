@@ -1,22 +1,27 @@
 """Employee application service / use cases (stub)."""
 
-from sqlalchemy.orm import Session
+# from sqlalchemy.orm import Session
 
 from app.domain.entities.employee import Employee
 
 
 class EmployeeService:
-    def __init__(self, db: Session) -> None:
+    def __init__(self) -> None:
         self._db = []
 
     def list_employees(self, *, skip: int = 0, limit: int = 100) -> list[Employee]:
-        raise NotImplementedError
+        pass
 
     def get_employee(self, employee_id: int) -> Employee:
-        raise NotImplementedError
+        for  employee in self._db:
+            if employee ==  employee_id:
+                return employee  
 
     def create_employee(self, employee: Employee) -> Employee:
-        self._db.append(employee)
+        if self._db.append(employee):
+            return True
+        else:
+            return False
 
     def update_employee(self, employee_id: int, employee: Employee) -> Employee:
         raise NotImplementedError
