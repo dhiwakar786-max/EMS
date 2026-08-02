@@ -10,21 +10,32 @@ class EmployeeService:
         self._db = []
 
     def list_employees(self, *, skip: int = 0, limit: int = 100) -> list[Employee]:
-        pass
+        if len(self._db) == 0:
+            return "No Employee Added"
+        else:
+            return self._db
 
     def get_employee(self, employee_id: int) -> Employee:
         for  employee in self._db:
-            if employee ==  employee_id:
-                return employee  
+            if employee.id ==  employee_id:
+                return employee
+
 
     def create_employee(self, employee: Employee) -> Employee:
-        if self._db.append(employee):
-            return True
+        result = self._db.append(employee)
+        if result == None:
+            return True,"Employee Added "
         else:
-            return False
+            return False,"Employee Not Added"
+        
 
     def update_employee(self, employee_id: int, employee: Employee) -> Employee:
-        raise NotImplementedError
+        for employee in self._db:
+            if employee.id == employee_id:
+                pass
+
 
     def delete_employee(self, employee_id: int) -> None:
-        raise NotImplementedError
+        for emp in self._db:
+            if emp.id == employee_id:
+                return self._db.remove(emp)

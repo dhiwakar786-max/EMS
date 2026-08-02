@@ -28,9 +28,9 @@ def create_employee(
     service: EmployeeService = Depends(get_employee_service),
 ) -> EmployeeResponse:
     try:
-        employee = service.create_employee(payload)
-        if employee == True:
-            return  "Employee created"
+        is_Created, message  = service.create_employee(payload)
+        return  EmployeeResponse(is_Created=is_Created, message=message)
+        
     except Exception as e:
         raise HTTPException(status_code = 400, detail = str(e))
       

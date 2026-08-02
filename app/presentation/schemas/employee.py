@@ -24,14 +24,22 @@ class EmployeeUpdateRequest(BaseModel):
 
 
 class EmployeeResponse(BaseModel):
-     
-    model_config = {"from_attributes": True}
+    is_Created : bool
+    message : str
 
-    employee_id : UUID
-    employee_name : str
-    employee_age : int
-    employee_salary : int
-    employee_email : str
-    employee_address : EmployeeAddress
+    # def __init__(self,is_Created : bool,message : int):
 
+    #     self.is_Created = is_Created 
+    #     self.message = message
+
+    # def get_is_Created(self):
+    #     return self.is_Created
+
+    # def set_is_Created(self,value):
+    #     self.is_created = value
+
+    # def get_message(self):
+    #     return self.message    
     
+    # def set_message(self, value):
+    #     self.message = value
