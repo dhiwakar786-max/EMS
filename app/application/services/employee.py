@@ -38,4 +38,7 @@ class EmployeeService:
     def delete_employee(self, employee_id: int) -> None:
         for emp in self._db:
             if emp.id == employee_id:
-                return self._db.remove(emp)
+                self._db.remove(emp)
+                return True
+        raise Exception("Employee not found")
+        
