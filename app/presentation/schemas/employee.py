@@ -26,7 +26,13 @@ class EmployeeUpdateRequest(BaseModel):
 class EmployeeResponse(BaseModel):
     is_Created : bool
     message : str
+    
 
+
+
+class EmployeelistResponse(BaseModel):
+    is_done : bool
+    result : list
     # def __init__(self,is_Created : bool,message : int):
 
     #     self.is_Created = is_Created 

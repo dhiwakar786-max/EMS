@@ -13,9 +13,9 @@ from app.infrastructure.database.session import get_db
 # def get_database() -> Generator[Session, None, None]:
 #     yield from get_db()
 
-
+employeeService =  EmployeeService()
 def get_employee_service() -> EmployeeService:
-    return EmployeeService()
+    return employeeService
 
 
 def get_department_service() -> DepartmentService:

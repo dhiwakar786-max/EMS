@@ -6,20 +6,25 @@ from app.presentation.dependencies import get_employee_service
 from app.presentation.schemas.employee import (
     EmployeeCreateRequest,
     EmployeeResponse,
-    EmployeeUpdateRequest,
+    EmployeeUpdateRequest,EmployeelistResponse
 
 )
 
 router = APIRouter(prefix="/employees", tags=["employees"])
 
 
-@router.get("/", response_model=list[EmployeeResponse])
+@router.get("/", response_model=EmployeelistResponse)
 def list_employees(
     skip: int = 0,
     limit: int = 100,
     service: EmployeeService = Depends(get_employee_service),
-) -> list[EmployeeResponse]:
-    return service.list_employees(skip = skip,limit = limit)
+) -> EmployeelistResponse:
+
+    is_done,result =service.list_employees(skip = skip,limit = limit)
+
+    return EmployeelistResponse(is_done=is_done, message="sample" ,result= result)
+
+    
 
 
 @router.post("/", response_model=EmployeeResponse, status_code=201)
@@ -29,11 +34,14 @@ def create_employee(
 ) -> EmployeeResponse:
     try:
         is_Created, message  = service.create_employee(payload)
+        print(EmployeeService)
         return  EmployeeResponse(is_Created=is_Created, message=message)
         
     except Exception as e:
         raise HTTPException(status_code = 400, detail = str(e))
       
+
+    return EmployeelistRes
         
 
 @router.get("/{employee_id}", response_model=EmployeeResponse)
@@ -70,8 +78,9 @@ def delete_employee(
     service: EmployeeService = Depends(get_employee_service),
 ) -> None:
     try:
-        result  = service.delete_employee(employee_id)
-        return None
+        is_Created,message = service.delete_employee(employee_id)
+        return EmployeeResponse(is_Created = is_Created,message = message)
+        
     except Exception as e:
         raise HTTPException(status_code = 404,detail = "employee not found")
     
