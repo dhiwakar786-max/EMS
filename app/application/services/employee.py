@@ -20,15 +20,20 @@ class EmployeeService:
             if employee.id ==  employee_id:
                 return employee
 
+    def generate_emp_id():
+        return f"EMP{len(employees) + 1:05d}"
+
 
     def create_employee(self, employee: Employee) -> Employee:
-        employee.employee_name = name
-        employee.employee_age = age
-        employee.employee_address = address
-        employee.employee_salary = salary
-        employee.employee_email = email
-        employ = (name,age,address,salary,email)
+        name = employee.employee_name
+        age = employee.employee_age 
+        address = employee.employee_address
+        salary = employee.employee_salary 
+        email = employee.employee_email
+        id = generate_emp_id()
+        employ = (name,age,address,salary,email,id)
         print(employ)
+        
         result = self._db.append(employ)
         print(self._db)
         if result == None:
