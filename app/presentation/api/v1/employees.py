@@ -6,7 +6,8 @@ from app.presentation.dependencies import get_employee_service
 from app.presentation.schemas.employee import (
     EmployeeCreateRequest,
     EmployeeResponse,
-    EmployeeUpdateRequest,EmployeelistResponse
+    EmployeeUpdateRequest,
+    EmployeedictResponse,EmployeelistResponse
 
 )
 
@@ -15,12 +16,11 @@ router = APIRouter(prefix="/employees", tags=["employees"])
 
 @router.get("/", response_model=EmployeelistResponse)
 def list_employees(
-    skip: int = 0,
-    limit: int = 100,
+    
     service: EmployeeService = Depends(get_employee_service),
 ) -> EmployeelistResponse:
 
-    is_done,result =service.list_employees(skip = skip,limit = limit)
+    is_done,result =service.list_employees()
 
     return EmployeelistResponse(is_done=is_done, message="sample" ,result= result)
 
@@ -44,16 +44,15 @@ def create_employee(
     return EmployeelistRes
         
 
-@router.get("/{employee_id}", response_model=EmployeeResponse)
+@router.get("/{employee_id}", response_model=EmployeedictResponse)
 def get_employee(
     employee_id: int,
     service: EmployeeService = Depends(get_employee_service),
-) -> EmployeeResponse:
-    try:
-        employee = service.get_employee(employee_id)
-        return employee
-    except Exception as e:
-        raise HTTPException(status_code = 404,detail = "Employee not found")
+) -> EmployeedictResponse:
+    is_Created,result = service.get_employee(employee_id)
+    return EmployeedictResponse(is_Created=is_Created,message=result)
+    #except Exception as e:
+        #raise HTTPException(status_code = 404,detail = "Employee not found")
     
    
 
@@ -72,13 +71,13 @@ def update_employee(
 
    
 
-@router.delete("/{employee_id}", status_code=204)
+@router.delete("/{employee_id}")
 def delete_employee(
     employee_id: int,
     service: EmployeeService = Depends(get_employee_service),
-) -> None:
+) -> EmployeeResponse:
     try:
-        is_Created,message = service.delete_employee(employee_id)
+        is_Created , message = service.delete_employee(employee_id)
         return EmployeeResponse(is_Created = is_Created,message = message)
         
     except Exception as e:
