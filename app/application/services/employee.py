@@ -1,74 +1,92 @@
-"""Employee application service / use cases (stub)."""
+"""Employee application service — DB-backed create / list / get / delete."""
 
-# from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session
 
 from app.domain.entities.employee import Employee
 from app.domain.entities.employeeaddress import EmployeeAddress
+from app.infrastructure.models.employee import EmployeeModel
 from app.presentation.schemas.employee import EmployeeCreateRequest
-import random
+
 
 class EmployeeService:
-    def __init__(self) -> None:
-        self._db = []
+    def __init__(self, db: Session) -> None:
+        self._db = db
 
-    def list_employees(self,*, skip: int = 0, limit: int = 100) -> list[Employee]:
-        print(self._db)
-        if len(self._db) == 0:
-            return False, self._db
-        else:
-            return True, self._db
+    def list_employees(self, *, skip: int = 0, limit: int = 100):
+        rows = self._db.query(EmployeeModel).offset(skip).limit(limit).all()
+        employees = [self._to_entity(row) for row in rows]
+        if len(employees) == 0:
+            return False, employees
+        return True, employees
 
-    def get_employee(self, employee_id: int) -> Employee:
-        for  emp in self._db:
-            print(emp.employee_id,employee_id)
-            if emp.employee_id ==  employee_id:
-                return True, emp
-        return False, None
-        
+    def get_employee(self, employee_id: int):
+        row = self._db.query(EmployeeModel).filter(EmployeeModel.emp_id == employee_id).first()
+        if row is None:
+            return False, None
+        return True, self._to_entity(row)
 
     def generate_emp_id(self):
-        id = random.randint(1,20)
-        return id
+        # kept for trainee compatibility; DB uses autoincrement instead
+        return None
 
-    def create_employee(self, employee: EmployeeCreateRequest) -> Employee:
-        name = employee.employee_name
-        age = employee.employee_age 
+    def create_employee(self, employee: EmployeeCreateRequest):
         address = employee.employee_address
-        doorno = address.employee_dooorno
-        street = address.employee_streetname
-        city = address.employee_city
-        pincode =address.employee_pincode
-        address1 = EmployeeAddress(doorno,street,city,pincode)
-        salary = employee.employee_salary 
-        email = employee.employee_email
-        id = int(self.generate_emp_id())
-        employ = Employee(id,name,age,salary,email,address1)
-        print(employ)
-    
-        
-        result = self._db.append(employ)
-        print(self._db)
-        if result == None:
-            return True,"Employee Added ",
-        else:
-            return False,"Employee Not Added"
-        
+        row = EmployeeModel(
+            emp_name=employee.employee_name,
+            emp_age=employee.employee_age,
+            emp_salary=employee.employee_salary,
+            emp_email=employee.employee_email,
+            emp_doorno=address.employee_dooorno,
+            emp_street=address.employee_streetname,
+            emp_city=address.employee_city,
+            emp_pincode=address.employee_pincode,
+        )
+        self._db.add(row)
+        self._db.commit()
+        self._db.refresh(row)
+        return True, "Employee Added "
 
-    def update_employee(self, employee_id: int, employee: Employee) -> Employee:
-        for emp in self._db:
-            if emp.employee_id == employee_id:
-                employee = emp
-                return 
-                
+    def update_employee(self, employee_id: int, employee):
+        row = self._db.query(EmployeeModel).filter(EmployeeModel.emp_id == employee_id).first()
+        if row is None:
+            raise ValueError("employee not found")
 
+        row.emp_name = employee.employee_name
+        row.emp_age = employee.employee_age
+        row.emp_salary = employee.employee_salary
+        row.emp_email = employee.employee_email
 
-    def delete_employee(self, employee_id: int) -> None:
-        print(self._db)
-        for emp in self._db:
-            print(emp.employee_id,employee_id)
-            if emp.employee_id == employee_id:
-                self._db.remove(emp)
-                return True , "deleted"
-        return False , "not deleted"
-        
-        
+        addr = employee.employee_address
+        # update schema uses employee_doorno (one 'o'); create uses employee_dooorno
+        row.emp_doorno = getattr(addr, "employee_doorno", None) or getattr(addr, "employee_dooorno")
+        row.emp_street = addr.employee_streetname
+        row.emp_city = addr.employee_city
+        row.emp_pincode = addr.employee_pincode
+
+        self._db.commit()
+        self._db.refresh(row)
+        return True, "Employee Updated "
+
+    def delete_employee(self, employee_id: int):
+        row = self._db.query(EmployeeModel).filter(EmployeeModel.emp_id == employee_id).first()
+        if row is None:
+            return False, "not deleted"
+        self._db.delete(row)
+        self._db.commit()
+        return True, "deleted"
+
+    def _to_entity(self, row: EmployeeModel) -> Employee:
+        address = EmployeeAddress(
+            row.emp_doorno,
+            row.emp_street,
+            row.emp_city,
+            row.emp_pincode,
+        )
+        return Employee(
+            row.emp_id,
+            row.emp_name,
+            row.emp_age,
+            row.emp_salary,
+            row.emp_email,
+            address,
+        )

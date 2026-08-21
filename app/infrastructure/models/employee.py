@@ -1,24 +1,30 @@
-"""Employee ORM model (stub)."""
+"""Employee ORM model — DB mapping for trainee employee fields."""
+
+from sqlalchemy import Integer, String
+from sqlalchemy.orm import Mapped, mapped_column
 
 from app.infrastructure.database.base import Base
-from app.infrastructure.models.employeeaddress import EmployeeAddressModel
+
 
 class EmployeeModel(Base):
     __tablename__ = "employees"
-    # TODO: colu
-    def __init__(self,id,name,age,salary,email,address):
-        
-        self.emp_id     = id
-        self.emp_name   = name
-        self.emp_age    = age
-        self.emp_salary = salary
-        self.emp_email = email
-        self.emp_address = address
+
+    emp_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    emp_name: Mapped[str] = mapped_column(String(255), nullable=False)
+    emp_age: Mapped[int] = mapped_column(Integer, nullable=False)
+    emp_salary: Mapped[int] = mapped_column(Integer, nullable=False)
+    emp_email: Mapped[str] = mapped_column(String(255), nullable=False)
+
+    # address (trainee field names)
+    emp_doorno: Mapped[int] = mapped_column(Integer, nullable=False)
+    emp_street: Mapped[str] = mapped_column(String(255), nullable=False)
+    emp_city: Mapped[str] = mapped_column(String(255), nullable=False)
+    emp_pincode: Mapped[int] = mapped_column(Integer, nullable=False)
 
     def get_emp_name(self):
         return self.emp_name
 
-    def set_emp_name(self,value):
+    def set_emp_name(self, value):
         self.emp_name = value
 
     def get_emp_id(self):
@@ -41,15 +47,20 @@ class EmployeeModel(Base):
 
     def get_emp_email(self):
         return self.emp_email
-    
-    def set_emp_email(self,value):
+
+    def set_emp_email(self, value):
         self.emp_email = value
 
     def get_emp_address(self):
-        return self.emp_address
-    
-    def set_emp_address(self,value):
-        self.emp_address = value
+        return {
+            "emp_doorno": self.emp_doorno,
+            "emp_street": self.emp_street,
+            "emp_city": self.emp_city,
+            "emp_pincode": self.emp_pincode,
+        }
 
-
-
+    def set_emp_address(self, value):
+        self.emp_doorno = value.emp_doorno if hasattr(value, "emp_doorno") else value.get("emp_doorno")
+        self.emp_street = value.emp_street if hasattr(value, "emp_street") else value.get("emp_street")
+        self.emp_city = value.emp_city if hasattr(value, "emp_city") else value.get("emp_city")
+        self.emp_pincode = value.emp_pincode if hasattr(value, "emp_pincode") else value.get("emp_pincode")

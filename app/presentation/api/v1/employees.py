@@ -20,9 +20,9 @@ def list_employees(
     service: EmployeeService = Depends(get_employee_service),
 ) -> EmployeelistResponse:
 
-    is_done,result =service.list_employees()
+    is_done, result = service.list_employees()
 
-    return EmployeelistResponse(is_done=is_done, message="sample" ,result= result)
+    return EmployeelistResponse(is_done=is_done, result=result)
 
     
 
@@ -64,10 +64,10 @@ def update_employee(
     service: EmployeeService = Depends(get_employee_service),
 ) -> EmployeeResponse:
     try:
-        employee = service.update_employee(employee_id,payload)
-        return employee
+        is_Created, message = service.update_employee(employee_id, payload)
+        return EmployeeResponse(is_Created=is_Created, message=message)
     except Exception as e:
-        raise HTTPException(status_code = 404,detail ="employee not found")
+        raise HTTPException(status_code=404, detail="employee not found")
 
    
 
