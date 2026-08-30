@@ -36,7 +36,7 @@ class EmployeeService:
             emp_age=employee.employee_age,
             emp_salary=employee.employee_salary,
             emp_email=employee.employee_email,
-            emp_doorno=address.employee_dooorno,
+            emp_doorno=address.employee_doorno,
             emp_street=address.employee_streetname,
             emp_city=address.employee_city,
             emp_pincode=address.employee_pincode,
@@ -66,6 +66,27 @@ class EmployeeService:
         self._db.commit()
         self._db.refresh(row)
         return True, "Employee Updated "
+
+    def update_name_employee(self, employee_id: int, employee):
+            row = self._db.query(EmployeeModel).filter(EmployeeModel.emp_id == employee_id).first()
+            if row is None:
+                raise ValueError("employee not found")
+    
+            row.emp_name = employee.employee_name
+
+            self._db.commit()
+            self._db.refresh(row)
+            return True, "Employee Name Updated "
+
+    def update_email_employee(self, employee_id: int, employee):
+            row = self._db.query(EmployeeModel).filter(EmployeeModel.emp_id == employee_id).first()
+            if row is None:
+                raise ValueError("employee not found")
+            row.emp_email = employee.employee_email
+
+            self._db.commit()
+            self._db.refresh(row)
+            return True, "Employee Email Updated "
 
     def delete_employee(self, employee_id: int):
         row = self._db.query(EmployeeModel).filter(EmployeeModel.emp_id == employee_id).first()

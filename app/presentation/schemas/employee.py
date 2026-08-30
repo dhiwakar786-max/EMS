@@ -23,6 +23,11 @@ class EmployeeUpdateRequest(BaseModel):
     employee_email : str
     employee_address : EmployeeAddressUpdateRequest
 
+class EmployeeNameUpdateRequest(BaseModel):
+    employee_name : str
+
+class EmployeeEmailUpdateRequest(BaseModel):
+    employee_email : str
 
 class EmployeeResponse(BaseModel):
     is_Created : bool

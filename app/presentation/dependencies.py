@@ -14,3 +14,4 @@ def get_employee_service(db: Session = Depends(get_db)) -> EmployeeService:
 
 def get_department_service() -> DepartmentService:
     return DepartmentService()
+    

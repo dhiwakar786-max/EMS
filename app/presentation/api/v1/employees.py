@@ -5,6 +5,8 @@ from app.application.services.employee import EmployeeService
 from app.presentation.dependencies import get_employee_service
 from app.presentation.schemas.employee import (
     EmployeeCreateRequest,
+    EmployeeEmailUpdateRequest,
+    EmployeeNameUpdateRequest,
     EmployeeResponse,
     EmployeeUpdateRequest,
     EmployeedictResponse,EmployeelistResponse
@@ -69,7 +71,32 @@ def update_employee(
     except Exception as e:
         raise HTTPException(status_code=404, detail="employee not found")
 
-   
+
+@router.put("/{employee_id}/name", response_model=EmployeeResponse)
+def update_name_employee(
+    employee_id: int,
+    payload: EmployeeNameUpdateRequest,
+    service: EmployeeService = Depends(get_employee_service),
+) -> EmployeeResponse:
+    try:
+        is_Created, message = service.update_name_employee(employee_id, payload)
+        return EmployeeResponse(is_Created=is_Created, message=message)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail="employee not found")
+
+    
+@router.put("/{employee_id}/email", response_model=EmployeeResponse)
+def update_email_employee(
+    employee_id: int,
+    payload: EmployeeEmailUpdateRequest,
+    service: EmployeeService = Depends(get_employee_service),
+) -> EmployeeResponse:
+    try:
+        is_Created, message = service.update_email_employee(employee_id, payload)
+        return EmployeeResponse(is_Created=is_Created, message=message)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail="employee not found")
+
 
 @router.delete("/{employee_id}")
 def delete_employee(
