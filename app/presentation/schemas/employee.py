@@ -7,7 +7,6 @@ from pydantic import BaseModel , Field
 
 
 class EmployeeCreateRequest(BaseModel):
-    
    
     employee_name : str = Field(..., min_length = 1)
     employee_age : int = Field(..., ge = 0)
