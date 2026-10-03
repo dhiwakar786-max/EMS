@@ -36,4 +36,10 @@ def dispatch_alert(user_contact: int, channel_type: str, alert_msg: str):
     except ValueError as e:
         print(f"Error: {e}")
 
-dispatch_alert(8072398384,"whatsapp","hi")
+# from notify import NotificationFactory, dispatch_alert
+
+# dispatch_alert("dev@example.com", "email", "Server CPU usage is over 90%!")
+
+# or grab a sender yourself
+sender = NotificationFactory.get_sender("whatsapp")
+sender.send(recipient='+916382468421', message="Your code is 4821.",time_hour=9,time_min=14)

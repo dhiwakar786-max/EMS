@@ -9,7 +9,7 @@ from app.presentation.schemas.employee import EmployeeCreateRequest
 
 
 class EmployeeService:
-    def __init__(self, db: Session) -> None:
+    def __init__(self, db=0) -> None:
         self._db = db
 
     def list_employees(self, *, skip: int = 0, limit: int = 100):
